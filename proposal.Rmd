@@ -6,7 +6,8 @@ Occasional anxiety is a normal part of life. Being a student at Columbia Univers
 For this exploratory data project, our team will look at a four-year NHIS data on 18-65 aged adults, focusing on the relationship between anxiety and other general factors such as gender and employment. Moreover, we will further our analysis by looking at other health factors like heart disease that could be correlated with feelings of anxiety.
 
 ## Data availability
-The NHIS data we utilized was collected and processed by the National Center for Health
+The [National Health Interview Survey](https://www.cdc.gov/nchs/nhis/data-questionnaires-documentation.htm)
+ data we utilized was collected and processed by the National Center for Health
 Statistics (NCHS). It is a cross-sectional household interview survey conducted through a geographic subgroup sampling technique (random selection), updated annually. The data contains statistical information on the interviewer's health status, health-related behaviors, and healthcare utilization history since 1993.
 
 We will limit our analysis to the recent years, 2018-2021 survey data only, and within the group
