@@ -4,26 +4,26 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 2 Proposal | YOUR TITLE HERE</title>
-  <meta name="description" content="Chapter 2 Proposal | YOUR TITLE HERE" />
+  <title>Chapter 2 Proposal | NHIS Anxiety Analysis in Adults</title>
+  <meta name="description" content="Chapter 2 Proposal | NHIS Anxiety Analysis in Adults" />
   <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 2 Proposal | YOUR TITLE HERE" />
+  <meta property="og:title" content="Chapter 2 Proposal | NHIS Anxiety Analysis in Adults" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 Proposal | YOUR TITLE HERE" />
+  <meta name="twitter:title" content="Chapter 2 Proposal | NHIS Anxiety Analysis in Adults" />
   
   
   
 
-<meta name="author" content="YOUR NAMES HERE" />
+<meta name="author" content="Zhe Wang, Yingyi Zhu, Zixiao Zhang" />
 
 
-<meta name="date" content="2022-10-22" />
+<meta name="date" content="2022-10-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -69,7 +69,7 @@
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">SHORT TITLE HERE</a></li>
+<li><a href="./">Anxiety Analysis</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
@@ -98,7 +98,7 @@
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">YOUR TITLE HERE</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">NHIS Anxiety Analysis in Adults</a>
           </h1>
         </div>
 
@@ -110,9 +110,23 @@
 <h1><span class="header-section-number">Chapter 2</span> Proposal<a href="proposal.html#proposal" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="research-topic" class="section level2 hasAnchor" number="2.1">
 <h2><span class="header-section-number">2.1</span> Research topic<a href="proposal.html#research-topic" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Occasional anxiety is a normal part of life. Being a student at Columbia University, it’s not uncommon to hear phrases such as being stressed about school work, midterms, and career searching. One news <a href="https://www.who.int/news/item/02-03-2022-covid-19-pandemic-triggers-25-increase-in-prevalence-of-anxiety-and-depression-worldwide">article</a> from the <strong>World Health Organization</strong> even revealed that the prevalence of anxiety and depression has increased by 25% globally during the social environment of the COVID-19 pandemic. Furthermore, anxiety may interfere with daily activities, such as work performance, schoolwork, and relationships. Physical symptoms can include rapid heartbeat, tremors, breathlessness, and other symptoms such as upset stomach or nausea.</p>
+<p>For this exploratory data project, our team will look at a four-year NHIS data on 18-65 aged adults, focusing on the relationship between anxiety and other general factors such as gender and employment. Moreover, we will further our analysis by looking at other health factors like heart disease that could be correlated with feelings of anxiety.</p>
 </div>
 <div id="data-availability" class="section level2 hasAnchor" number="2.2">
 <h2><span class="header-section-number">2.2</span> Data availability<a href="proposal.html#data-availability" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The NHIS data we utilized was collected and processed by the National Center for Health
+Statistics (NCHS). It is a cross-sectional household interview survey conducted through a geographic subgroup sampling technique (random selection), updated annually. The data contains statistical information on the interviewer’s health status, health-related behaviors, and healthcare utilization history since 1993.</p>
+<p>We will limit our analysis to the recent years, 2018-2021 survey data only, and within the group
+of 18-65 aged adults. The sample adult population of each year would be approximately 30,000. The data format we will be using will be CSV format. The total size over the four years adults data would be 112MB, including elders, which we would feature engineer later to exclude. We intended to import the CSV files to R studios by used the built-in read.csv(…) function call to conduct data cleaning and visualization of the relationship of anxiety between the following factors that were found in all four years of surveys:</p>
+<p>For common independent factors, we have ages, years (split to Covid/non-Covid), marital status,
+genders, races, sexual orientations, household numbers, regions, habits (such as smoking, alcohol, etc.), employment, history of chronic pains and hours of sleep. The list’s order is random and does not have ranks of importance. We include these factors to help us understand our samples and the distribution of anxiety in the population, such as genders and regions. If the sample population distribution is highly imbalanced, we will thus adjust our strategies correspondingly by downsampling or upsampling.</p>
+<p>Additional to the common independent factors, we would further explore certain physical health
+factors we found might be correlated: history of heart disease, history of cancer, history of stroke, history of diabetes, and history of asthma. Again, the order of the list above is random. We are interested in exploring the relationship between these above factors because many studies have shown mental health is correlated with physical health to different degrees. We would, therefore, like to examine the degree of correlation.</p>
+<p>One additional comment regarding our data is that it’s interview survey data, which are answered
+without 100% truth guarantees. It’s possible the interviewees chose to give inaccurate information out of self-interest. Moreover, the health-related questions are also self-answered, which means there is not necessarily a formal background check to confirm. We don’t know if some health conditions have been cured. Therefore, we decided to use terms such as “history of anxiety” and “history of cancers” to adjust the level of accuracy.</p>
+<p>In summary, we will explore the relationship between anxiety(self-indicated or formally
+diagnosed) with other factors, such as age, gender, and years, with a further focus on physical conditions. The NHIS data will help us achieve a four-year exploration with a rich sample adult population of around 30,000 each year. We will keep in mind the inaccuracy that comes with the nature of the NHIS data collection process.</p>
 
 </div>
 </div>
@@ -153,7 +167,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/edit/main/proposal.Rmd",
+"link": "https://github.com/jerrywang0928/NHIS-Anxiety-Analysis-in-Adults/edit/main/proposal.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -161,7 +175,7 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/blob/main/proposal.Rmd",
+"link": "https://github.com/jerrywang0928/NHIS-Anxiety-Analysis-in-Adults/blob/main/proposal.Rmd",
 "text": null
 },
 "download": null,
