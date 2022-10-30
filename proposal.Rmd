@@ -25,5 +25,5 @@ without 100% truth guarantees. It’s possible the interviewees chose to give in
   In summary, we will explore the relationship between anxiety(self-indicated or formally
 diagnosed) with other factors, such as age, gender, and years, with a further focus on physical conditions. The NHIS data will help us achieve a four-year exploration with a rich sample adult population of around 30,000 each year. We will keep in mind the inaccuracy that comes with the nature of the NHIS data collection process.
 
-The following is a link to the NHIS data
-[National Health Interview Survey](https://www.cdc.gov/nchs/nhis/data-questionnaires-documentation.htm)
+The following is a link to the NHIS data 
+[National Health Interview Survey](https://www.cdc.gov/nchs/nhis/data-questionnaires-documentation.htm) 
