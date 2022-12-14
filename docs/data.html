@@ -110,6 +110,8 @@
 <h1><span class="header-section-number">Chapter 3</span> Data<a href="data.html#data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <div id="sources" class="section level2 hasAnchor" number="3.1">
 <h2><span class="header-section-number">3.1</span> Sources<a href="data.html#sources" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The data we use are from the National Health Interview Survey. It contains the results of interviews with about 30,000 people per year. The National Center for Health Surveys collects and processes the survey data. (hereafter referred to as NCHS) Each year, NCHS conducts a cross-sectional household interview survey of a specific population at a specific time through a geographic subgroup sampling technique. After the survey, they process the data, store it in a CSV file, and provide documentation that describes the meaning of each column and the keywords of the questions.</p>
+<p>The NCHS website can find the survey data for each year from 1993 to 2021. We selected the recent four years of data for analysis. Since most of the questions interviewed in recent years were similar, we could easily find overlaps in the data and analyze them. Secondly, we also expected to know whether covid-19 is a factor that affects anxiety. Therefore, we selected data from two years before and two years after the pandemic.</p>
 <pre><code>## tibble [84,975 × 17] (S3: tbl_df/tbl/data.frame)
 ##  $ History_of_Anxiety      : chr [1:84975] &quot;No&quot; &quot;No&quot; &quot;Yes&quot; &quot;No&quot; ...
 ##  $ Age                     : num [1:84975] 28 60 60 32 61 28 63 28 52 29 ...
@@ -128,6 +130,8 @@
 ##  $ History_of_Asthma       : chr [1:84975] &quot;No&quot; &quot;No&quot; &quot;Yes&quot; &quot;No&quot; ...
 ##  $ Year                    : num [1:84975] 2019 2019 2019 2019 2019 ...
 ##  $ Covid_Year              : chr [1:84975] &quot;No&quot; &quot;No&quot; &quot;No&quot; &quot;No&quot; ...</code></pre>
+<p>After the process of data cleanups, we have the data information shown in the figure above. The final data will contain 17 columns, with all categorical variables except for age. The most frequent values are yes or no, which is consistent with the characteristics of survey data. For each year of data, there are nearly 30,000 people, and we set the target group at 18 to 65 years old. So after filtering out other age groups, we end up with 84975 rows.</p>
+<p>Before we cleaned the data, we considered that there would be missing data as common sense dictates that respondents would not be forced to answer every question. This also became apparent after we cleaned the data, as several columns had missing values, and not all answers were valuable. Some people refuse to answer the questions or answers they don’t know. This could be a potential problem for the accuracy of our data.</p>
 </div>
 <div id="cleaning-transformation" class="section level2 hasAnchor" number="3.2">
 <h2><span class="header-section-number">3.2</span> Cleaning / transformation<a href="data.html#cleaning-transformation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
