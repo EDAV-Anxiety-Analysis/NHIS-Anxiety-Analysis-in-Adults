@@ -8,6 +8,25 @@ library(ggplot2)
 library(GGally)
 library(ggalluvial)
 ```
+
+**Percentage of interviewees with Anxiety Over 4 years, by gender**
 ```{r}
-print(1+1)
+options(dplyr.summarise.inform = FALSE)
+nhisBar <- NHIS_final %>%
+  filter(History_of_Anxiety !='Missing') %>%
+  filter(Sex=="Male" | Sex=="Female")
+nhisBar1 <- nhisBar %>%
+  group_by(Year, History_of_Anxiety, Sex) %>%
+  dplyr::summarise(Freq = n())
+ggplot(nhisBar1, aes(x = Year, y=Freq, fill = History_of_Anxiety)) + 
+    geom_bar(position="fill", stat="identity") +
+  facet_wrap(~Sex) +
+  scale_fill_manual(values = c("#E7BCC6", "#768CCe", "#B4BBC0", "#FAE367")) +
+  theme_minimal()
 ```
+
+Although the population interviewed each year was not a fixed group of people, we have no way of knowing whether the same group of people had a change in their mental health during those years. However, according to the graph above, the percentage of interviewees with anxiety disorders has increased yearly—both the percentage of males and females. On the male side, we can see that the increase is relatively small, but there is no sign of a decrease. The increase from 2018 to 2019 is more significant on the female side. The increase is almost 50% of those with anxiety disorders in 2018. The increase continues each year slowly after that. 
+We can also note that the proportion of women with anxiety disorders is greater than that of men, with almost 25% of women having anxiety disorders by 2021. 
+
+
+
