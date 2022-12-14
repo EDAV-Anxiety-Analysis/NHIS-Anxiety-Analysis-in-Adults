@@ -1,1 +1,13 @@
 # Results
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(grid)
+library(ggplot2)
+library(GGally)
+library(ggalluvial)
+```
+```{r}
+print(1+1)
+```
