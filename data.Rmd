@@ -2,7 +2,282 @@
 
 ## Sources
 
+```{r include=FALSE}
+library(readr)
+download.file("https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Datasets/NHIS/2021/adult21csv.zip", destfile = "adult21.zip")
+download.file("https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Datasets/NHIS/2020/adult20csv.zip", destfile="adult20.zip")
+download.file("https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Datasets/NHIS/2019/adult19csv.zip", destfile="adult19.zip")
+download.file("https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Datasets/NHIS/2018/samadultcsv.zip", destfile="adult18.zip")
+data2021 <- unzip("adult21.zip")
+data2020 <- unzip("adult20.zip")
+data2019 <- unzip("adult19.zip")
+data2018 <- unzip("adult18.zip")
+NHIS_2021 <- readr::read_csv("adult21.csv", show_col_types = FALSE)
+NHIS_2020 <- readr::read_csv("adult20.csv", show_col_types = FALSE)
+NHIS_2019 <- readr::read_csv("adult19.csv", show_col_types = FALSE)
+NHIS_2018 <- readr::read_csv("samadult.csv", show_col_types = FALSE)
+```
+
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(tibble)
+library(forcats)
+library(vcdExtra)
+library(redav)
+library(GGally)
+library(ggalluvial)
+NHIS_2019 <- select(NHIS_2019, c('ANXEV_A', 'AGEP_A', 'MARITAL_A', 'SEX_A', 'HISPALLP_A', 'ORIENT_A', 'REGION', 'SMKNOW_A', 'EMPWRKLSWK_A', 'PAIFRQ3M_A', 'CHDEV_A', 'CANEV_A', 'STREV_A', 'DIBEV_A', 'ASEV_A'))
+
+NHIS_2020 <- select(NHIS_2020, c('ANXEV_A', 'AGEP_A', 'MARITAL_A', 'SEX_A', 'HISPALLP_A', 'ORIENT_A', 'REGION', 'SMKNOW_A', 'EMPWRKLSWK_A', 'PAIFRQ3M_A', 'CHDEV_A', 'CANEV_A', 'STREV_A', 'DIBEV_A', 'ASEV_A'))
+
+NHIS_2021 <- select(NHIS_2021, c('ANXEV_A', 'AGEP_A', 'MARITAL_A', 'SEX_A', 'HISPALLP_A', 'ORIENT_A', 'REGION', 'SMKNOW_A', 'EMPWRKLSW1_A', 'PAIFRQ3M_A', 'CHDEV_A', 'CANEV_A', 'STREV_A', 'DIBEV_A', 'ASEV_A'))
+
+col_names = c("History_of_Anxiety", "Age", "Marital_Status", "Sex", "Race", "Sexual_Orientation", "Region", "Smoking", "Employment", "Chronic_pain", "History_of_Heart_disease", "History_of_Cancer", "History_of_Stroke", "History_of_Diabetes", "History_of_Asthma")
+
+colnames(NHIS_2019) <- col_names
+colnames(NHIS_2020) <- col_names
+colnames(NHIS_2021) <- col_names
+```
+
+
+```{r}
+data_cleaner <- function(df, year,Covid){
+  df_test <- df
+  
+  df_test$Year <- year
+  df_test$Covid_Year <- Covid
+  
+  #df_test[is.na(df_test)] = 'Missing'
+  
+  df_test <- subset(df_test, Age>=18 & Age <= 65)
+  
+  df_test <- df_test %>% mutate_at(
+                  c('History_of_Anxiety','History_of_Heart_disease','History_of_Cancer','History_of_Stroke',
+                    'History_of_Diabetes','History_of_Asthma','Employment'),  ~ case_when(
+                                          . == 1 ~ "Yes",
+                                          . == 2 ~ "No",
+                                          . == 7 ~ "Refused",
+                                          . == 8 ~ "Do not know",
+                                          . == 9 ~ "Do not know",
+                                          TRUE ~ "Missing"))
+  df_test <- df_test%>% mutate_at(
+                  c('Marital_Status'),  ~ case_when(
+                                          . == 1 ~ "Married",
+                                          . == 2 ~ "Unmarried",
+                                          . == 3 ~ "Unmarried",
+                                          . == 7 ~ "Refused",
+                                          . == 8 ~ "Do not know",
+                                          . == 9 ~ "Do not know",
+                                          TRUE ~ "Missing"))
+  df_test <- df_test%>% mutate_at(
+                  c('Sex'),  ~ case_when(
+                                          . == 1 ~ "Male",
+                                          . == 2 ~ "Female",
+                                          . == 7 ~ "Refused",
+                                          . == 8 ~ "Do not know",
+                                          . == 9 ~ "Do not know",
+                                          TRUE ~ "Missing"))
+
+  df_test <- df_test%>% mutate_at(
+                  c('Race'),  ~ case_when(
+                                          . == 02 ~ "White",
+                                          . == 03 ~ "Black",
+                                          . == 04 ~ "Asian",
+                                          . == 01 ~ "Others",
+                                          . == 05 ~ "Others",
+                                          . == 06 ~ "Others",
+                                          . == 07 ~ "Others",
+                                          . == 97 ~ "Refused",
+                                          . == 98 ~ "Do not know",
+                                          . == 99 ~ "Do not know",
+                                          TRUE ~ "Missing"
+                                        ))
+  df_test <- df_test %>% mutate_at(
+                  c('Sexual_Orientation'),  ~ case_when(
+                                          . == 1 ~ "Gay_Lesbian",
+                                          . == 2 ~ "Straight",
+                                          . == 3 ~ "Bisexual",
+                                          . == 4 ~ "Others",
+                                          . == 5 ~ "Others",
+                                          . == 7 ~ "Refused",
+                                          . == 8 ~ "Do not know",
+                                          . == 9 ~ "Do not know",
+                                          TRUE ~ "Missing"
+                                        ))
+  df_test <- df_test%>% mutate_at(
+                  c('Region'),  ~ case_when(
+                                          . == 1 ~ "Northeast",
+                                          . == 2 ~ "Midwest",
+                                          . == 3 ~ "South",
+                                          . == 4 ~ "West",
+                                          TRUE ~ "Missing"
+                                        ))
+  df_test <- df_test%>% mutate_at(
+                  c('Chronic_pain'), ~ case_when(
+                                          . == 1 ~ "Never",
+                                          . == 2 ~ "Some days",
+                                          . == 3 ~ "Most days",
+                                          . == 4 ~ "Every day",
+                                          . == 7 ~ "Refused",
+                                          . == 8 ~ "Do not know",
+                                          . == 9 ~ "Do not know",
+                                          TRUE ~ "Missing"
+                                        ))
+    df_test <- df_test%>% mutate_at(
+                  c('Smoking'),  ~ case_when(
+                                          . == 1 ~ "Every day",
+                                          . == 2 ~ "Some days",
+                                          . == 3 ~ "Not at all",
+                                          . == 7 ~ "Refused",
+                                          . == 8 ~ "Do not know",
+                                          . == 9 ~ "Do not know",
+                                          TRUE ~ "Missing"
+                                        ))
+
+  return(df_test)
+}
+```
+
+
+```{r}
+NHIS_2019_test = data_cleaner(NHIS_2019,year = 2019,Covid='No')
+NHIS_2020_test = data_cleaner(NHIS_2020,year = 2020,Covid='Yes')
+NHIS_2021_test = data_cleaner(NHIS_2021,year = 2021,Covid='Yes')
+```
+
+
+```{r}
+df <- select(NHIS_2018, c('AFLHCA17', 'AGE_P', 'R_MARITL', 'SEX', 'MRACRPI2', 'ASISIM', 'ASISIF', 'REGION', 'SMKNOW', 'DOINGLWA', 'PAIN_2A', 'CHDEV', 'CANEV', 'STREV', 'DIBEV1', 'AASMEV'))
+
+colnames(df) <- c("History_of_Anxiety", "Age", "Marital_Status", "Sex", "Race", "Sexual_Orientation_Male", "Sexual_Orientation_Female", "Region", "Smoking", "Employment", "Chronic_pain", "History_of_Heart_disease", "History_of_Cancer", "History_of_Stroke", "History_of_Diabetes", "History_of_Asthma")
+df$Year <- 2018
+df$Covid_Year <- 'No'
+df$Sexual_Orientation <- coalesce(df$Sexual_Orientation_Male, df$Sexual_Orientation_Female)
+df <- subset (df, select = -c(Sexual_Orientation_Male, Sexual_Orientation_Female))
+df <- subset(df, Age>=18 & Age <= 65) 
+
+df1 <- df%>%
+  mutate(
+    History_of_Anxiety = case_when(df$History_of_Anxiety == 1 ~ 'Yes', df$History_of_Anxiety == 2 ~ 'No',
+                                   df$History_of_Anxiety == 7 ~ "Refused",
+                              df$History_of_Anxiety == 8 ~ "Do not know",
+                              df$History_of_Anxiety == 9 ~ "Do not know",
+                        TRUE ~ 'Missing'),
+    Marital_Status = case_when(df$Marital_Status == 1 | df$Marital_Status == 2 | df$Marital_Status == 3 ~ 'Married',
+                               df$Marital_Status == 0 | df$Marital_Status == 4 | df$Marital_Status == 5 | df$Marital_Status == 6 | df$Marital_Status == 7 |  df$Marital_Status == 8 ~ 'Unmarried',
+                                          df$Marital_Status == 9 ~ "Do not know",
+                               TRUE ~ 'Missing'),
+    Race = case_when(df$Race == 1 ~ 'White',
+                     df$Race == 2 ~ 'Black',
+                     df$Race == 9 | df$Race == 10 | df$Race == 11 | df$Race == 15 ~ 'Asian',
+                     df$Race == 3 ~ 'Others',
+                     TRUE ~ 'Missing'),
+    Smoking = case_when(df$Smoking == 1 ~ "Every day",
+                        df$Smoking == 2 ~ "Some days",
+                        df$Smoking == 3 ~ "Not at all",
+                        df$Smoking == 7 ~ "Refused",
+                        df$Smoking == 8 ~ "Do not know",
+                        df$Smoking == 9 ~ "Do not know",
+                        TRUE ~ 'Missing'),
+    Sex = case_when(df$Sex == 1 ~ 'Male', df$Sex == 2 ~ 'Female', 
+                         TRUE ~ 'Missing'),
+    Sexual_Orientation = case_when(df$Sexual_Orientation == 1 ~ 'Gay_Lesbian',
+                          df$Sexual_Orientation == 2 ~ 'Straight',
+                          df$Sexual_Orientation == 3 ~ 'Others',
+                          TRUE ~ 'Missing'),
+    Employment = case_when(df$Employment == 1 | df$Employment == 2 | df$Employment == 4 ~ 'Yes',
+                           df$Employment == 3 | df$Employment == 5 ~ 'No',
+                          df$Employment == 7 ~ "Refused",
+                        df$Employment == 8 ~ "Do not know",
+                        df$Employment == 9 ~ "Do not know",
+                           TRUE ~ 'Missing'),
+    Region = case_when(df$Region == 1 ~ 'Northeast',
+                       df$Region == 2 ~ 'Midwest',
+                       df$Region == 3 ~ 'South',
+                       df$Region == 4 ~ 'West',
+                       TRUE ~ 'Missing'),
+    Chronic_pain = case_when(df$Chronic_pain == 1 ~ 'Never',
+                             df$Chronic_pain == 2 ~ 'Some days',
+                             df$Chronic_pain == 3 ~ 'Most days',
+                             df$Chronic_pain == 4 ~ 'Every day',
+                             df$Chronic_pain== 7 ~ "Refused",
+                              df$Chronic_pain == 8 ~ "Do not know",
+                              df$Chronic_pain == 9 ~ "Do not know",
+                             TRUE ~ 'Missing'),
+    History_of_Heart_disease = case_when(df$History_of_Heart_disease == 1 ~ 'Yes',
+                              df$History_of_Heart_disease == 2 ~ 'No',
+                              df$History_of_Heart_disease== 7 ~ "Refused",
+                              df$History_of_Heart_disease == 8 ~ "Do not know",
+                              df$History_of_Heart_disease == 9 ~ "Do not know",
+                              TRUE ~ 'Missing'),
+    History_of_Cancer = case_when(df$History_of_Cancer == 1 ~ 'Yes',
+                              df$History_of_Cancer == 2 ~ 'No',
+                              df$History_of_Cancer == 7 ~ "Refused",
+                              df$History_of_Cancer == 8 ~ "Do not know",
+                              df$History_of_Cancer == 9 ~ "Do not know",
+                              TRUE ~ 'Missing'),
+    History_of_Stroke  = case_when(df$History_of_Stroke  == 1 ~ 'Yes',
+                              df$History_of_Stroke == 2 ~ 'No',
+                              df$History_of_Stroke == 7 ~ "Refused",
+                              df$History_of_Stroke == 8 ~ "Do not know",
+                              df$History_of_Stroke == 9 ~ "Do not know",
+                              TRUE ~ 'Missing'),
+    History_of_Diabetes = case_when(df$History_of_Diabetes  == 1 ~ 'Yes',
+                              df$History_of_Diabetes == 2 ~ 'No',
+                              df$History_of_Diabetes == 7 ~ "Refused",
+                              df$History_of_Diabetes == 8 ~ "Do not know",
+                              df$History_of_Diabetes == 9 ~ "Do not know",
+                              TRUE ~ 'Missing'),
+    History_of_Asthma = case_when(df$History_of_Asthma  == 1 ~ 'Yes',
+                              df$History_of_Asthma == 2 ~ 'No',
+                              df$History_of_Asthma == 7 ~ "Refused",
+                              df$History_of_Asthma == 8 ~ "Do not know",
+                              df$History_of_Asthma == 9 ~ "Do not know",
+                              TRUE ~ 'Missing')
+    )
+
+NHIS_2018_test = df1
+```
+
+```{r}
+NHIS_final <- rbind(NHIS_2019_test, NHIS_2020_test, NHIS_2021_test, NHIS_2018_test)
+str(NHIS_final)
+```
+
 ## Cleaning / transformation
 
-## Missing value analysis
+The data we are looking for on the official NCHS website is a compressed file ending in ".zip". In this case, we use the URL to read it. Then we unzip it to extract the CSV file. Since we will be using four years of data, this step needs to be repeated four times.
 
+In the original document, each column corresponds to a survey question. Using the question as a column name is not practical because it is very long. Therefore, the column names in the file are labelled with a combination of letters and numbers. NCHS provides the documentation to help us understand each column's meaning and the corresponding survey question. Once we have confirmed the columns we need to use by searching for keywords, we use select to retrieve these columns from each year of data. We know the characteristics of each column, but the viewer may have yet to have the opportunity to read the documentation. Therefore, we need to change the names of the columns so that the viewer understands the values they are referring to. It will also be easier for us to use during the rest of the exploratory data analysis.
+
+Next, we notice that the column values are labelled by the numbers 1, 2, 3, 4, etc. Just like the answers to the multiple-choice questions. So to convert the column values into easy-to-read text, we open the documentation again, which indicates the answer for each number. By using mutate, we converted each column's values into easy-to-understand words. After this cleaning of the data, we can start the subsequent analysis.
+
+## Missing value analysis
+```{r fig.width=22, fig.height=10}
+NHIS_Missing <- NHIS_final %>%
+  select("History_of_Anxiety", "Smoking","Age", "Marital_Status", "Sex", "Race", "Sexual_Orientation", "Region", "Employment", "Chronic_pain", "History_of_Heart_disease", "History_of_Cancer", "History_of_Stroke", "History_of_Diabetes", "History_of_Asthma") %>%
+  mutate(History_of_Anxiety = na_if(History_of_Anxiety, "Missing")) %>%
+  mutate(Age = na_if(Age, "Missing")) %>%
+  mutate(Marital_Status = na_if(Marital_Status, "Missing")) %>%
+  mutate(Sex = na_if(Sex, "Missing")) %>%
+  mutate(Race = na_if(Race, "Missing")) %>%
+  mutate(Smoking= na_if(Smoking, "Missing")) %>%
+  mutate(Sexual_Orientation = na_if(Sexual_Orientation, "Missing")) %>%
+  mutate(Region = na_if(Region, "Missing")) %>%
+  mutate(Employment = na_if(Employment, "Missing")) %>%
+  mutate(Chronic_pain = na_if(Chronic_pain, "Missing")) %>%
+  mutate(History_of_Heart_disease = na_if(History_of_Heart_disease, "Missing")) %>%
+  mutate(History_of_Cancer = na_if(History_of_Cancer, "Missing")) %>%
+  mutate(History_of_Stroke = na_if(History_of_Stroke, "Missing")) %>%
+  mutate(History_of_Diabetes = na_if(History_of_Diabetes, "Missing")) %>%
+  mutate(History_of_Asthma = na_if(History_of_Asthma, "Missing"))
+
+plot_missing(NHIS_Missing, percent = FALSE)
+```
+
+The data we use is based on the interviewer's responses. Because of the interview data and the fact that it is not mandatory to answer each question, we have values for many questions that are missing. That is, the interviewees chose not to answer the question. With four years of data, we will deal with a large portion of missing values. We tried to use a heatmap to visualize the missing values in rows and columns, but because of the large amount of data. It is not possible to plot the whole graph. So we chose to use plot_missing() from redav to help us see if there are any patterns hidden in these missing values.
+
+Based on the results above, we can see that for the more basic personal information such as age, gender and region. The interviewees are willing to choose to answer. This is not difficult to understand, as we mentioned that each year's interview population was randomly selected through a geographic subgroup sampling technique. The area of residence of the popular respondents at the time of the interview was also not non-disclosed. In the case of the more personal questions about personal health and sexual orientation, there are a large number of missing values. Therefore, we can see that the interviewees are still more concerned about their privacy. This also reflects the uncertainty of the data we use. The missing values of columns show that the overlap of the Smoking, History of Anxiety, and Sexual Orientation columns is slightly relatively high. However, there is no obvious pattern. Therefore, there is no significant pattern of missing values in the dataset. 
