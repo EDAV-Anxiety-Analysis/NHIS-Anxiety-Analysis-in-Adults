@@ -69,6 +69,7 @@ counts2 <- df %>%
   group_by(Race,Sex,History_of_Anxiety) %>%
   summarize(Freq = sum(Freq))
 
+icecreamcolors <- c("#E7BCC6", "#768CCe")
 
 vcd::mosaic(History_of_Anxiety ~ Sex + Race, counts2,
             direction = c("h", "v", "h"),
