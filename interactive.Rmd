@@ -1,2 +1,2 @@
 # Interactive component
-<iframe style="border-radius: 25px; border:none; background: #FDE6EC" src="interactiveHT.html" width="750" height="700"></iframe>
+<iframe style="border-radius: 25px; border:none; background: #FDE6EC" src="interactiveHT.html" width="750" height="600"></iframe>
