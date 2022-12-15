@@ -28,7 +28,35 @@ ggplot(nhisBar1, aes(x = Year, y=Freq, fill = History_of_Anxiety)) +
 Although the population interviewed each year was not a fixed group of people, we have no way of knowing whether the same group of people had a change in their mental health during those years. However, according to the graph above, the percentage of interviewees with anxiety disorders has increased yearly—both the percentage of males and females. On the male side, we can see that the increase is relatively small, but there is no sign of a decrease. The increase from 2018 to 2019 is more significant on the female side. The increase is almost 50% of those with anxiety disorders in 2018. The increase continues each year slowly after that. 
 We can also note that the proportion of women with anxiety disorders is greater than that of men, with almost 25% of women having anxiety disorders by 2021. 
 
-## "Anxiety and Identity: The Intersection of Race and Sex"
+```{r}
+df <- NHIS_final
+df$Freq <-1
+df = df %>% filter(Marital_Status !='Missing')
+df = df %>% filter(Sex !='Missing' & Sex != "Do not know" & Sex != "Refused")
+df = df %>% filter(History_of_Anxiety !='Missing' & History_of_Anxiety != "Do not know" & History_of_Anxiety != "Refused")
+df = df %>% filter(Employment !='Missing' & Employment != "Do not know")
+df = df %>% filter(Race !='Missing')
+df = df %>% filter(Covid_Year !='Missing')
+df = df %>% filter(Region !='Missing')
+df = df %>% filter(History_of_Heart_disease !='Missing')
+df = df %>% filter(History_of_Cancer !='Missing')
+df = df %>% filter(History_of_Stroke !='Missing')
+df = df %>% filter(Smoking !="Do not know" & Smoking != "Refused")
+df = df %>% filter(Chronic_pain !="Do not know" & Chronic_pain!= "Refused")
+df = df %>% filter(History_of_Diabetes !='Missing')
+df = df %>% filter(History_of_Asthma !='Missing')
+df = df %>% filter(Sexual_Orientation !='Missing' & Sexual_Orientation !='Missing')
+df <- df %>% mutate_at(
+                c('Sexual_Orientation'),  ~ case_when(
+                                        . == "Others" ~ "LGBT+",
+                                        . == "Straight" ~ "Straight",
+                                        TRUE ~ "Straight"
+                                        ))
+
+```
+
+
+##Anxiety and Identity: The Intersection of Race and Sex##
 ```{r}
 options(dplyr.summarise.inform = FALSE)
 df$Race  <- factor(df$Race,c('White','Others','Black','Asian') )
@@ -46,7 +74,7 @@ vcd::mosaic(History_of_Anxiety ~ Sex + Race, counts2,
 
 Anxiety among different genders still follows the pattern from the first plot, with females being more likely to experience anxiety than males. However, if we break down the data by race, we can see that females in the "other" category are more likely to experience anxiety than Black and Asian females, compared to males.
 
-## "The Burden of Chronic Pain: Exploring the Prevalence and Impact of Chronic Pain among sex"
+##The Burden of Chronic Pain: Exploring the Prevalence and Impact of Chronic Pain among sex##
 ```{r}
 # alluvium plot
 counts2 <- df %>%
@@ -244,34 +272,7 @@ ggplot(nhisBar3, aes(x = Smoking, y=Freq, fill = History_of_Anxiety)) +
 
 According to our perceptions, smoking is a form of stress relief for some people who have just started smoking. Many smokers experience relief from anxiety after smoking. But is this true? The chart above divides the population into smokers and non-smokers and compares whether they have ever suffered from anxiety. About 27 percent of occasional smokers had anxiety disorders. About 22 percent of occasional smokers had anxiety disorders. About 19% of the never smokers had anxiety disorders. Looking at the graph, we can conclude that smokers are at least eight percent more likely to have anxiety disorders than non-smokers.
 
-```{r}
-df <- NHIS_final
-df$Freq <-1
-df = df %>% filter(Marital_Status !='Missing')
-df = df %>% filter(Sex !='Missing' & Sex != "Do not know" & Sex != "Refused")
-df = df %>% filter(History_of_Anxiety !='Missing' & History_of_Anxiety != "Do not know" & History_of_Anxiety != "Refused")
-df = df %>% filter(Employment !='Missing' & Employment != "Do not know")
-df = df %>% filter(Race !='Missing')
-df = df %>% filter(Covid_Year !='Missing')
-df = df %>% filter(Region !='Missing')
-df = df %>% filter(History_of_Heart_disease !='Missing')
-df = df %>% filter(History_of_Cancer !='Missing')
-df = df %>% filter(History_of_Stroke !='Missing')
-df = df %>% filter(Smoking !="Do not know" & Smoking != "Refused")
-df = df %>% filter(Chronic_pain !="Do not know" & Chronic_pain!= "Refused")
-df = df %>% filter(History_of_Diabetes !='Missing')
-df = df %>% filter(History_of_Asthma !='Missing')
-df = df %>% filter(Sexual_Orientation !='Missing' & Sexual_Orientation !='Missing')
-df <- df %>% mutate_at(
-                c('Sexual_Orientation'),  ~ case_when(
-                                        . == "Others" ~ "LGBT+",
-                                        . == "Straight" ~ "Straight",
-                                        TRUE ~ "Straight"
-                                        ))
-
-```
-
-## "Happier Work and Marriage: The Key to Reducing Anxiety?"
+##Happier Work and Marriage: The Key to Reducing Anxiety?##
 ```{r}
 options(dplyr.summarise.inform = FALSE)
 df$Marital_Status  <- factor(df$Marital_Status,c('Unmarried','Married') )
@@ -291,7 +292,7 @@ vcd::mosaic(History_of_Anxiety ~ Employment + Marital_Status, counts2,
 Mosaic plots are used for visualizing data from two or more qualitative variables to show their proportions or associations. Based on the plot above, we can see that people who are unmarried and unemployed are more likely to have Anxiety than other people. At the same time, people who are unemployed have slightly higher chance to be unmarried.
 
 
-## "Geography and the LGBT+ Community: Variations in Anxiety Risk"
+##Geography and the LGBT+ Community: Variations in Anxiety Risk##
 ```{r}
 counts2 <- df %>%
   group_by(History_of_Anxiety,Sexual_Orientation,Region) %>%
@@ -303,8 +304,6 @@ vcd::mosaic(History_of_Anxiety ~ Region + Sexual_Orientation, counts2,
 ```
 
 Based on the plot, we can see that there is a lower concentration of LGBT+ individuals living in the southern and midwestern regions of the United States compared to other parts of the country. This may be due to a variety of factors, such as a lack of supportive communities or discrimination. However, the data also suggests that those who do live in the south and midwest are more likely to experience anxiety than those living in other regions. This could be a result of the challenges and barriers that they face in these areas, such as a lack of acceptance and support. Overall, this suggests that location can play a significant role in the mental health and well-being of LGBT+ individuals.
-
-
 
 
 
