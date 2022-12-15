@@ -1,2 +1,13 @@
 # Conclusion
 
+**For data limitations:** 
+
+The accuracy of survey results may be influenced by respondents' willingness and ability to provide accurate and honest answers. People's health and anxiety levels are subject to response bias, meaning that certain people or groups may respond to the survey more or less often. This may affect the representativeness of the survey sample and potentially bias the results.
+
+**Lessons learned:** 
+
+We have learned some lessons about conducting research and collecting data. We know the importance of having a clear research question and objectives, the need to carefully design and test survey questions, and the importance of considering potential limitations and challenges in the data collection and analysis. 
+
+**Future directions: **
+
+1. For interactive components, we would like to be able to add several more plots and maps that show the geographical location, so that when people hover over the corresponding location, the other plots will change according to the data for that area. 
