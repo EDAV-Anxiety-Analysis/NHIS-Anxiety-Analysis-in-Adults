@@ -56,7 +56,7 @@ df <- df %>% mutate_at(
 ```
 
 
-##Anxiety and Identity: The Intersection of Race and Sex
+## Anxiety and Identity: The Intersection of Race and Sex
 ```{r}
 options(dplyr.summarise.inform = FALSE)
 df$Race  <- factor(df$Race,c('White','Others','Black','Asian') )
@@ -74,7 +74,7 @@ vcd::mosaic(History_of_Anxiety ~ Sex + Race, counts2,
 
 Anxiety among different genders still follows the pattern from the first plot, with females being more likely to experience anxiety than males. However, if we break down the data by race, we can see that females in the "other" category are more likely to experience anxiety than Black and Asian females, compared to males.
 
-##The Burden of Chronic Pain: Exploring the Prevalence and Impact of Chronic Pain among sex
+## The Burden of Chronic Pain: Exploring the Prevalence and Impact of Chronic Pain among sex
 ```{r fig.width=5, fig.height=5}
 # alluvium plot
 counts2 <- df %>%
@@ -89,7 +89,7 @@ ggplot(counts2, aes(axis = History_of_Anxiety, axis3 = Chronic_pain, axis2 = Sex
   scale_x_discrete(limits = c("History_of_Anxiety", "Chronic_pain", "Smoking"))
 ```
 
-##Anxiety vs. Physical Diseases
+## Anxiety vs. Physical Diseases
 ```{r}
 orderedclasses <- c("Yes", "No", "Refused", "Do not Know", "Missing")
 mydata <- NHIS_final %>%
@@ -190,7 +190,7 @@ In the above five plots, the x-axis represents the interviewee population's diff
 Among those who had Anxiety, more than 75% chose no, which means more than 75% of people do not have heart disease.
 After comparing Anxiety with other diseases, we can see that the percentage of people who answered yes to both asthma and a history of Anxiety is the highest among the five diseases. We can probably assume that there is a relationship between them. 
 
-##Exploring the Relationship Between Diseases
+## Exploring the Relationship Between Diseases
 
 ```{r}
 nhisAnxiety <- NHIS_final %>%
@@ -231,7 +231,7 @@ draw_biplot(heat5, points=FALSE)
 
 The loading plots include vectors for each disease, including anxiety. We note that the vectors for anxiety disorders and asthma patients are relatively close. From our study of the biplot, we know that forming a small angle means that the two variables are positively correlated. Combining this with our findings in the previous heatmap, there is a link between anxiety and asthma. Second, we can also note that the angle between the history of anxiety and other disorders is between 75 and 100 degrees, which means they are not likely to be correlated.
 
-##Anxiety Among Ages
+## Anxiety Among Ages
 
 ```{r}
 
@@ -254,7 +254,7 @@ ggplot(nhisCleve3, aes(x = pro, y = Age)) +
 
 The proportion of anxiety is relatively even across all ages. It remains below 25 percent. However, it is easy to see from the graph that the older the age, the lower the proportion. The prevalence of anxiety disorders in 23- and 24-year-olds is a little higher than in other age groups. The younger the person, the smaller the number of people who have had anxiety disorders. By age 65, the percentage had dropped to less than 12 percent.
 
-##Can smoking reduce anxiety?
+## Can smoking reduce anxiety?
 
 ```{r}
 nhisBar2 <- NHIS_final %>%
@@ -272,7 +272,7 @@ ggplot(nhisBar3, aes(x = Smoking, y=Freq, fill = History_of_Anxiety)) +
 
 According to our perceptions, smoking is a form of stress relief for some people who have just started smoking. Many smokers experience relief from anxiety after smoking. But is this true? The chart above divides the population into smokers and non-smokers and compares whether they have ever suffered from anxiety. About 27 percent of occasional smokers had anxiety disorders. About 22 percent of occasional smokers had anxiety disorders. About 19% of the never smokers had anxiety disorders. Looking at the graph, we can conclude that smokers are at least eight percent more likely to have anxiety disorders than non-smokers.
 
-##Happier Work and Marriage: The Key to Reducing Anxiety?
+## Happier Work and Marriage: The Key to Reducing Anxiety?
 ```{r}
 options(dplyr.summarise.inform = FALSE)
 df$Marital_Status  <- factor(df$Marital_Status,c('Unmarried','Married') )
@@ -292,7 +292,7 @@ vcd::mosaic(History_of_Anxiety ~ Employment + Marital_Status, counts2,
 Mosaic plots are used for visualizing data from two or more qualitative variables to show their proportions or associations. Based on the plot above, we can see that people who are unmarried and unemployed are more likely to have Anxiety than other people. At the same time, people who are unemployed have slightly higher chance to be unmarried.
 
 
-##Geography and the LGBT+ Community: Variations in Anxiety Risk
+## Geography and the LGBT+ Community: Variations in Anxiety Risk
 ```{r}
 counts2 <- df %>%
   group_by(History_of_Anxiety,Sexual_Orientation,Region) %>%
