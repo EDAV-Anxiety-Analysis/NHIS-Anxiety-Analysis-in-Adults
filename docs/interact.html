@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Final_Project_Interactive_Bar_Chart</title>
+    <script src="https://d3js.org/d3.v7.js"></script>
+  </head>
+
+  <body>
+  
+    <p>
+      <button type="button" onclick="CY()">Covid Year</button> 
+      <button type="button" onclick="Year()">Year</button> 
+      <button type="button" onclick="Region()">Region</button>
+      <button type="button" onclick="Sex()">Sex</button>
+      <button type="button" onclick="SO()">Sexual Orientation</button>
+      <button type="button" onclick="Race()">Race</button>
+      <button type="button" onclick="Emp()">Employment</button>
+      <button type="button" onclick="MS()">Marital Status</button>
+      
+
+      <button type="button" onclick="CP()">Chronic Pain</button>     
+      <button type="button" onclick="Smoking()">Smoking</button>      
+      
+      <br>
+      <button type="button" onclick="HoH()">History of Heart Disease</button>     
+      <button type="button" onclick="HoC()">History of Cancer</button>   
+      <button type="button" onclick="HoS()">History of Stroke</button>   
+      <button type="button" onclick="HoD()">History of Diabetes</button>   
+      <button type="button" onclick="HoAs()">History of Asthma</button>           
+      
+    </p>
+    
+  	<script>
+
+  	// Create initial svg(year) and initial bars
+
+      const w = 400;
+      const h = 300;
+      const margin = {top: 25, right: 0, bottom: 25, left: 25};
+      const innerWidth = w - margin.left - margin.right;
+      const innerHeight = h - margin.top - margin.bottom;
+
+      // Hard code data(year) for initial presentations 
+      const bardata = [{key: "2018", value: 0.0375188132},
+                       {key: "2019", value: 0.157301921},
+                       {key: "2020", value: 0.1711915877},
+                       {key: "2021", value: 0.1826388559}];
+
+      const xScale = d3.scaleBand()
+                       .domain(bardata.map(d => d.key))
+                       .range([0, innerWidth])
+                       .paddingInner(.1);
+
+      const xAxis = d3.axisBottom()
+                      .scale(xScale);
+
+      const yScale = d3.scaleLinear()
+                       .domain([0, 1])
+                       .range([innerHeight, 0])
+
+      const yAxis = d3.axisLeft()
+                      .scale(yScale);
+
+      // add svg
+
+      const svg = d3.select("body")
+                    .append("svg")
+                    .attr("width", w)
+                    .attr("height", h);
+
+      // add background rectangle
+
+      svg.append("rect")
+         .attr("x", 0)
+         .attr("y", 0)
+         .attr("width", w)
+         .attr("height", h)
+         .attr("fill", "white");
+
+      // add bars as a group
+
+      const bars = svg.append("g")
+                      .attr("id", "plot")
+                      .attr("transform", `translate (${margin.left}, ${margin.top})`)
+                      .selectAll("rect")
+                      .data(bardata);
+
+      bars.enter().append("rect")
+                  .attr("x", d => xScale(d.key))
+                  .attr("y", d => yScale(d.value))
+                  .attr("width", xScale.bandwidth())
+                  .attr("height", d => innerHeight - yScale(d.value))
+                  .attr("fill", "lightgreen");
+
+      // add axes
+
+      svg.append("g")
+         .attr("class", "xAxis")
+         .attr("transform", `translate (${margin.left}, ${h - margin.bottom})`)
+         .call(xAxis);
+
+      svg.append("g")
+          .attr("class", "yAxis")
+          .attr("transform", `translate (${margin.left}, ${margin.top})`)
+          .call(yAxis);
+
+      // General Update Pattern: it remove old svg and replace with new one on clicked data
+
+      function update(bardata){
+
+        d3.select("svg").remove();
+
+        const xScale = d3.scaleBand()
+                         .domain(bardata.map(d => d.key))
+                         .range([0, innerWidth])
+                         .paddingInner(.1);
+
+        const xAxis = d3.axisBottom()
+                        .scale(xScale);
+
+        const yScale = d3.scaleLinear()
+                         .domain([0, 1])
+                         .range([innerHeight, 0])
+
+        const yAxis = d3.axisLeft()
+                        .scale(yScale);
+
+        // add svg
+
+        const svg = d3.select("body")
+                      .append("svg")
+                      .attr("width", w)
+                      .attr("height", h);
+
+        // add background rectangle
+
+        svg.append("rect")
+           .attr("x", 0)
+           .attr("y", 0)
+           .attr("width", w)
+           .attr("height", h)
+           .attr("fill", "white");
+
+        // add bars as a group
+
+        const bars = svg.append("g")
+                        .attr("id", "plot")
+                        .attr("transform", `translate (${margin.left}, ${margin.top})`)
+                        .selectAll("rect")
+                        .data(bardata);
+
+        bars.enter().append("rect")
+                    .attr("x", d => xScale(d.key))
+                    .attr("y", d => yScale(d.value))
+                    .attr("width", xScale.bandwidth())
+                    .attr("height", d => innerHeight - yScale(d.value))
+                    .attr("fill", "lightgreen");
+
+        // add axes
+
+        svg.append("g")
+           .attr("class", "xAxis")
+           .attr("transform", `translate (${margin.left}, ${h - margin.bottom})`)
+           .call(xAxis);
+
+        svg.append("g")
+           .attr("class", "yAxis")
+           .attr("transform", `translate (${margin.left}, ${margin.top})`)
+           .call(yAxis);
+      }
+
+      // Function to update svg on specified data
+      function CY(){
+        const bardata = [{key:"Yes", value:0.1767803294},
+                         {key:"No",value:0.1040726144}];
+        update(bardata);
+      }
+      
+			function Year(){
+      	const bardata = [{key: "2018", value: 0.0375188132},
+                         {key: "2019", value: 0.157301921},
+                         {key: "2020", value: 0.1711915877},
+                         {key: "2021", value: 0.1826388559}];
+        update(bardata); 
+      }
+      
+      function Region(){
+        const bardata = [{key:"Northeast", value:0.1477248375},
+                         {key:"South",value:0.1377336141},
+                         {key:"West", value:0.1270966546},
+                         {key:"Midwest", value:0.1568782233}];
+        update(bardata);
+      } 
+      
+      function Sex() {
+        const bardata = [{key: "Female", value: 0.1802251700},
+                         {key: "Male", value: 0.0970234831}]; 
+        update(bardata);
+      }
+      
+      function SO(){
+        const bardata = [{key:"Straight", value:0.1309340518},
+                         {key:"Bisexual", value:0.4954128440},
+                         {key:"Gay_Lesbian",value:0.2262239730},
+                         {key:"Others", value:0.3053988719}];
+        update(bardata);
+      }
+      
+      function Race() {
+        const bardata_Race = [{key: "Aisan", value: 0.0476456356},
+                                {key: "Black", value: 0.1027943105},
+                                {key: "White", value: 0.1582158637},
+                                {key: "Others", value:0.1335197763}];
+        update(bardata_Race);
+      }
+      
+      function Emp(){
+        const bardata = [{key:"Yes", value:0.1139120363},
+                         {key:"No",value:0.2204671645}];
+        update(bardata);
+      }
+      
+      function MS() {
+        const bardata_MS = [{key: "Married", value: 0.1121756890},
+                           {key: "Unmarried", value: 0.1670430975}];
+        update(bardata_MS);
+      }
+      
+      function CP(){
+        const bardata = [{key:"Every day", value:0.2975887081},
+                         {key:"Most days", value:0.2595102418},
+                         {key:"Some days",value:0.1358965759},
+                         {key:"Never", value:0.0770008926}];
+        update(bardata);
+      } 
+      
+      function Smoking(){
+        const bardata = [{key:"Every day", value:0.2351003931},
+                         {key:"Some days",value:0.1891891892},
+                         {key:"Not at all", value:0.1726071049}];
+        update(bardata);
+      } 
+      
+      function HoH(){
+        const bardata = [{key:"Yes", value:0.2147210502},
+                         {key:"No",value:0.1389835836}];
+        update(bardata);
+      }     
+      
+      function HoC(){
+        const bardata = [{key:"Yes", value:0.1967900784},
+                         {key:"No",value:0.1370751426}];
+        update(bardata);
+      }    
+      
+      function HoS(){
+        const bardata = [{key:"Yes", value:0.2749206349},
+                         {key:"No",value:0.1384118755}];
+        update(bardata);
+      }     
+      
+      function HoD(){
+        const bardata = [{key:"Yes", value:0.1961220598},
+                         {key:"No",value:0.1370150476}];
+        update(bardata);
+      }   
+      
+      function HoAs(){
+        const bardata = [{key:"Yes", value:0.2487912808},
+                         {key:"No",value:0.1229262388}];
+        update(bardata);
+      }   
+
+    </script>
+    
+  </body>
+
+</html>
