@@ -10,11 +10,11 @@ library(ggalluvial)
 ```
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 ```
 
 ## Female vs Male, which group are more sensitive to anxiety?
-```{r echo=FALSE}
+```{r}
 options(dplyr.summarise.inform = FALSE)
 nhisBar <- NHIS_final %>%
   filter(History_of_Anxiety !='Missing') %>%
@@ -31,7 +31,7 @@ ggplot(nhisBar1, aes(x = Year, y=Freq, fill = History_of_Anxiety)) +
 
 Since the population interviewed each year was not a fixed group of people, we have no way of knowing whether the same group of people had a change in their mental health during those years. However, according to the graph above, the percentage of interviewees with history of anxiety has increased yearly—both the percentage of males and females. On the male side, we can see that the increase is relatively small, but there is no sign of a decrease. On the female side, we can see a significant increase from 2018 to 2019, which is almost 50% of those with history of anxiety in 2018. Such increase continues each year slowly after that, and almost 25% of women are having history of anxiety by 2021. In summary, the proportion of women with history of anxiety is greater than that of men, with both indicates signs of continue increase.
 
-```{r echo=FALSE}
+```{r}
 df <- NHIS_final
 df$Freq <-1
 df = df %>% filter(Marital_Status !='Missing')
