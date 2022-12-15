@@ -1,3 +1,87 @@
+--- 
+title: "NHIS Anxiety Analysis in Adults"
+author: "Zhe Wang, Yingyi Zhu, Zixiao Zhang"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+---
+--- 
+title: "NHIS Anxiety Analysis in Adults"
+author: "Zhe Wang, Yingyi Zhu, Zixiao Zhang"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+---
+```{r include=FALSE, cache=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE
+)
+```
+
+# Introduction
+
+In today’s rapidly developing society, it’s not surprising to find out that almost everyone feels certain degrees of anxiety. When it comes to work place, people can be facing high workloads and tight deadlines. When it comes to school, students might be experiencing peer pressure academically. When it comes to family, people are under pressure of taking responsibility consistently. When it comes to success, some might be concerned about the definition of success. All the above can be signs of anxiety, while anxiety is also manifested in a variety of mild or severe psychological diseases and behavioral symptoms. Therefore, as anxiety is closely related to us, we would like to explore the relationships of anxiety to other factors of our life, and if possible, what kind of information these relationships revealed to us.
+
+<!--chapter:end:index.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE
+)
+```
+# Proposal
+## Research topic
+
+  Occasional anxiety is a normal part of life. Being a student at Columbia University, it's not uncommon to hear phrases such as being stressed about school work, midterms, and career searching. One news [article](https://www.who.int/news/item/02-03-2022-covid-19-pandemic-triggers-25-increase-in-prevalence-of-anxiety-and-depression-worldwide) from the **World Health Organization** even revealed that the prevalence of anxiety and depression has increased by 25% globally during the social environment of the COVID-19 pandemic. Furthermore, anxiety may interfere with daily activities, such as work performance, schoolwork, and relationships. Physical symptoms can include rapid heartbeat, tremors, breathlessness, and other symptoms such as upset stomach or nausea.
+
+  For this exploratory data project, our team will look at a four-year NHIS data on 18-65 aged adults, focusing on the relationship between anxiety and other general factors such as gender and employment. Moreover, we will further our analysis by looking at other health factors like heart disease that could be correlated with feelings of anxiety.
+
+## Data availability
+  The [National Health Interview Survey](https://www.cdc.gov/nchs/nhis/data-questionnaires-documentation.htm)
+ data we utilized was collected and processed by the National Center for Health
+Statistics (NCHS). It is a cross-sectional household interview survey conducted through a geographic subgroup sampling technique (random selection), updated annually. The data contains statistical information on the interviewer's health status, health-related behaviors, and healthcare utilization history since 1993.
+
+  We will limit our analysis to the recent years, 2018-2021 survey data only, and within the group
+of 18-65 aged adults. The sample adult population of each year would be approximately 30,000. The data format we will be using will be CSV format. The total size over the four years adults data would be 112MB, including elders, which we would feature engineer later to exclude. We intended to import the CSV files to R studios by used the built-in read.csv(...) function call to conduct data cleaning and visualization of the relationship of anxiety between the following factors that were found in all four years of surveys: 
+
+  For common independent factors, we have ages, years (split to Covid/non-Covid), marital status,
+genders, races, sexual orientations, household numbers, regions, habits (such as smoking, alcohol, etc.), employment, history of chronic pains and hours of sleep. The list's order is random and does not have ranks of importance. We include these factors to help us understand our samples and the distribution of anxiety in the population, such as genders and regions. If the sample population distribution is highly imbalanced, we will thus adjust our strategies correspondingly by downsampling or upsampling.
+
+  Additional to the common independent factors, we would further explore certain physical health
+factors we found might be correlated: history of heart disease, history of cancer, history of stroke, history of diabetes, and history of asthma. Again, the order of the list above is random. We are interested in exploring the relationship between these above factors because many studies have shown mental health is correlated with physical health to different degrees. We would, therefore, like to examine the degree of correlation.
+
+  One additional comment regarding our data is that it’s interview survey data, which are answered
+without 100% truth guarantees. It’s possible the interviewees chose to give inaccurate information out of self-interest. Moreover, the health-related questions are also self-answered, which means there is not necessarily a formal background check to confirm. We don’t know if some health conditions have been cured. Therefore, we decided to use terms such as “history of anxiety” and “history of cancers” to adjust the level of accuracy.
+
+  In summary, we will explore the relationship between anxiety(self-indicated or formally
+diagnosed) with other factors, such as age, gender, and years, with a further focus on physical conditions. The NHIS data will help us achieve a four-year exploration with a rich sample adult population of around 30,000 each year. We will keep in mind the inaccuracy that comes with the nature of the NHIS data collection process.
+
+Here is a link to the NHIS data: 
+[National Health Interview Survey](https://www.cdc.gov/nchs/nhis/data-questionnaires-documentation.htm)
+
+<!--chapter:end:proposal.Rmd-->
+
+
+# Data 
+
+Placeholder
+
+
+## Sources
+## Cleaning / transformation
+## Missing value analysis
+
+<!--chapter:end:data.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE
+)
+```
 # Results
 
 ```{r}
@@ -329,3 +413,48 @@ Based on the plot, we can see that there is a lower concentration of LGBT+ indiv
 **Summary:**
 
 We found that not all the factors we think of related to history of anxiety initially shown signs of correlation. In fact, from the loading plots, it’s interesting to find out only history of asthma are highly correlated with history of anxiety, others are less relevant by around 90 degrees of angle formed. Different age groups don’t indicate a huge difference in percent of anxiety as well. In conclusion, identity factors such as sex, sexual orientation, and social factors such as employment and marital status shown higher correlations with history of anxiety, others relationship remained in question and further testing.
+
+<!--chapter:end:results.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE
+)
+```
+# Interactive component
+<iframe style="border-radius: 25px; border:none; background: #FDE6EC" src="interactiveHT.html" width="750" height="530"></iframe>
+
+**Instructions:**
+The interactive bar chart above shows the proportion of people indicate history of anxiety each year, breaking down by all the categorical variables (therefore excluded age). In general, it seems like people with other health issues shows a higher correlation with history of anxiety. Such conclusion is attained from ignoring the column “Do not know”, since such column usually contains too small of sample size therefore might not be as convincing to indicate a relationship.
+
+Please feel free to click on any of the buttons at the top of the graph to explore the proportion break down by a specific group.
+
+
+<!--chapter:end:interactive.Rmd-->
+
+```{r include=FALSE, cache=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE
+)
+```
+# Conclusion
+
+**For data limitations:** 
+
+The accuracy of survey results may be influenced by respondents’ willingness and ability to provide accurate and honest answers. People’s health and anxiety levels are subject to response bias, meaning that certain people or groups may respond to the survey more or less often. Minority groups’ response can also have effect on the behaviors of data since such groups are already in lower proportion of interviewees.
+In summary, the above factors may affect the representativeness of the survey sample and may cause potentially bias the results.
+
+**Lessons learned:** 
+
+We have learned some lessons about conducting research and collecting data. We know the importance of having a clear research question and objectives, the need to carefully design and test survey questions, and the importance of considering potential limitations and challenges in the data collection and analysis. Moreover, through testing different factors (which we originally assume high relationship with dependent variable), we indeed found not all of them shows sign of correlation. This again enhanced our understanding of exploratory data; we don’t assume something and search for reason to back up such assumption, instead we would like to explore the data to have a higher understanding of our dataset.
+
+**Future directions: **
+
+For interactive components, we would like to be able to add several more plots and maps that show the geographical location, so that when people hover over the corresponding location, the other plots will change according to the data for that area. 
+
+<!--chapter:end:conclusion.Rmd-->
+
