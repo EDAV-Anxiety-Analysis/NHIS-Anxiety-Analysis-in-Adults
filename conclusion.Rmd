@@ -2,12 +2,13 @@
 
 **For data limitations:** 
 
-The accuracy of survey results may be influenced by respondents' willingness and ability to provide accurate and honest answers. People's health and anxiety levels are subject to response bias, meaning that certain people or groups may respond to the survey more or less often. This may affect the representativeness of the survey sample and potentially bias the results.
+The accuracy of survey results may be influenced by respondents’ willingness and ability to provide accurate and honest answers. People’s health and anxiety levels are subject to response bias, meaning that certain people or groups may respond to the survey more or less often. Minority groups’ response can also have effect on the behaviors of data since such groups are already in lower proportion of interviewees.
+In summary, the above factors may affect the representativeness of the survey sample and may cause potentially bias the results.
 
 **Lessons learned:** 
 
-We have learned some lessons about conducting research and collecting data. We know the importance of having a clear research question and objectives, the need to carefully design and test survey questions, and the importance of considering potential limitations and challenges in the data collection and analysis. 
+We have learned some lessons about conducting research and collecting data. We know the importance of having a clear research question and objectives, the need to carefully design and test survey questions, and the importance of considering potential limitations and challenges in the data collection and analysis. Moreover, through testing different factors (which we originally assume high relationship with dependent variable), we indeed found not all of them shows sign of correlation. This again enhanced our understanding of exploratory data; we don’t assume something and search for reason to back up such assumption, instead we would like to explore the data to have a higher understanding of our dataset.
 
 **Future directions: **
 
-1. For interactive components, we would like to be able to add several more plots and maps that show the geographical location, so that when people hover over the corresponding location, the other plots will change according to the data for that area. 
+For interactive components, we would like to be able to add several more plots and maps that show the geographical location, so that when people hover over the corresponding location, the other plots will change according to the data for that area. 

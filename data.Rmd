@@ -242,18 +242,18 @@ df1 <- df%>%
 NHIS_2018_test = df1
 ```
 
-The data we use are from the National Health Interview Survey. It contains the results of interviews with about 30,000 people per year. The National Center for Health Surveys collects and processes the survey data. (hereafter referred to as NCHS) Each year, NCHS conducts a cross-sectional household interview survey of a specific population at a specific time through a geographic subgroup sampling technique. After the survey, they process the data, store it in a CSV file, and provide documentation that describes the meaning of each column and the keywords of the questions.
+The National Health Interview Survey (NHIS) data we used was collected and processed by NCHS, and shared in various methods (in this project we used CSV files), along with documentations that provide summaries and raw insights of such data. In short, it contains the results of around 30,000 interviews (individual people) per year. 
 
-The NCHS website can find the survey data for each year from 1993 to 2021. We selected the recent four years of data for analysis. Since most of the questions interviewed in recent years were similar, we could easily find overlaps in the data and analyze them. Secondly, we also expected to know whether covid-19 is a factor that affects anxiety. Therefore, we selected data from two years before and two years after the pandemic. 
+The NCHS website provides NHIS survey data for each year from 1993 to 2021. We only selected the recent four years of data for analysis purposely. One major reason comes from the interest in analyzing the covid-19 effect on the behaviors of NHIS data. Another is the limitation of older data which doesn’t necessarily contain information on the factors we would like to explore. Therefore, we selected NHIS data ranging from 2018 to 2021 in the hope to explore our interests at the same time minimizing our limitations. We also limit our groups of adults to 18-65 aged since elderly are usually seen as separate group to focus on in the field of health study.
 
 ```{r}
 NHIS_final <- rbind(NHIS_2019_test, NHIS_2020_test, NHIS_2021_test, NHIS_2018_test)
 str(NHIS_final)
 ```
 
-After the process of data cleanups, we have the data information shown in the figure above. The final data will contain 17 columns, with all categorical variables except for age. The most frequent values are yes or no, which is consistent with the characteristics of survey data. For each year of data, there are nearly 30,000 people, and we set the target group at 18 to 65 years old. So after filtering out other age groups, we end up with 84975 rows. 
+After the process of data cleanup, we have the data information shown as the figure above. The cleaned data contains 17 columns, with 16 categorical variables and 1 numerical variable (age). The most frequent values of our variables (except age) are yes or no, which is consistent with the characteristics of survey data. At the same time, since we set our target group to 18 to 65 years old adults, we filter out other ages group which reduced the sum of nearly 30,000 people each year, total four years of NHIS survey data, to 84975 rows.
 
-Before we cleaned the data, we considered that there would be missing data as common sense dictates that respondents would not be forced to answer every question.  This also became apparent after we cleaned the data, as several columns had missing values, and not all answers were valuable.  Some people refuse to answer the questions or answers they don't know.  This could be a potential problem for the accuracy of our data.
+Moreover, in consideration of missing data as some respondents might not have the full willingness to reveal some sensitive or private information, we make sure when we cleaned the data we don’t accidently exclude such “missing” values’ rows. Such information in fact can also contribute to our analysis in different methods: the relationship of reasons of not answer to anxiety. At the same time, a high amount of missing data can also reveal another kind of concern, which also became clear after we cleaned the data, as several columns had missing values, and not all answers were valuable. This could be a potential problem for the accuracy of our data.
 
 ## Cleaning / transformation
 

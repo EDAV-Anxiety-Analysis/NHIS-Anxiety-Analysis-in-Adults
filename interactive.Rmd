@@ -2,4 +2,7 @@
 <iframe style="border-radius: 25px; border:none; background: #FDE6EC" src="interactiveHT.html" width="750" height="530"></iframe>
 
 **Instructions:**
-The bar chart will show the percentage of people who have suffered from anxiety disorders each year without using the population. Please feel free to click on any of the buttons at the top of the graph to see the changes.
+The interactive bar chart above shows the proportion of people indicate history of anxiety each year, breaking down by all the categorical variables (therefore excluded age). In general, it seems like people with other health issues shows a higher correlation with history of anxiety. Such conclusion is attained from ignoring the column “Do not know”, since such column usually contains too small of sample size therefore might not be as convincing to indicate a relationship.
+
+Please feel free to click on any of the buttons at the top of the graph to explore the proportion break down by a specific group.
+
