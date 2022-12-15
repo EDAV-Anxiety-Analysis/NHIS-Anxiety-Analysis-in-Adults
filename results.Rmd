@@ -21,7 +21,7 @@ nhisBar1 <- nhisBar %>%
 ggplot(nhisBar1, aes(x = Year, y=Freq, fill = History_of_Anxiety)) + 
     geom_bar(position="fill", stat="identity") +
   facet_wrap(~Sex) +
-  scale_fill_manual(values = c("#E7BCC6", "#768CCe", "#B4BBC0", "#FAE367")) +
+  scale_fill_manual(values = c("#FAE367", "#768CCe", "#E7BCC6", "#B4BBC0"), limits = c("Yes", "No", "Refused", "Do not know")) +
   theme_minimal()
 ```
 
@@ -91,35 +91,35 @@ mydata9 <- mydata9 %>% group_by(History_of_Anxiety) %>%
 h1 <- ggplot(subset(subset(mydata1, !is.na(History_of_Heart_disease)), !is.na(History_of_Anxiety)), aes(x = History_of_Anxiety, y = History_of_Heart_disease)) +
   geom_tile(aes(fill = (Freq/Total)), color = "white") +
   coord_fixed() + 
-  scale_fill_gradientn(colors=c("#ffe5b5", "#feb538", "#c85103")) +
+  scale_fill_gradientn(colors=c("#aacfe5", "#3888c0", "#08336e"))+
   theme(axis.text.x = element_text(angle = 70, vjust = 1, hjust=1))+
   labs(fill = "Freq in Anxiety")
 
 h2 <- ggplot(subset(subset(mydata3, !is.na(History_of_Cancer)), !is.na(History_of_Anxiety)), aes(x = History_of_Anxiety, y = History_of_Cancer)) +
   geom_tile(aes(fill = (Freq/Total)), color = "white") +
   coord_fixed() + 
-  scale_fill_gradientn(colors=c("#ffe5b5", "#feb538", "#c85103"))+
+  scale_fill_gradientn(colors=c("#aacfe5", "#3888c0", "#08336e"))+
   theme(axis.text.x = element_text(angle = 70, vjust = 1, hjust=1))+
   labs(fill = "Freq in Anxiety")
 
 h3 <- ggplot(subset(subset(mydata5, !is.na(History_of_Stroke)), !is.na(History_of_Anxiety)), aes(x = History_of_Anxiety, y = History_of_Stroke)) +
   geom_tile(aes(fill = (Freq/Total)), color = "white") +
   coord_fixed() + 
-  scale_fill_gradientn(colors=c("#ffe5b5", "#feb538", "#c85103"))+
+  scale_fill_gradientn(colors=c("#aacfe5", "#3888c0", "#08336e"))+
   theme(axis.text.x = element_text(angle = 70, vjust = 1, hjust=1))+
   labs(fill = "Freq in Anxiety")
 
 h4 <- ggplot(subset(subset(mydata7, !is.na(History_of_Diabetes)), !is.na(History_of_Anxiety)), aes(x = History_of_Anxiety, y = History_of_Diabetes)) +
   geom_tile(aes(fill = (Freq/Total)), color = "white") +
   coord_fixed() + 
-  scale_fill_gradientn(colors=c("#ffe5b5", "#feb538", "#c85103"))+
+  scale_fill_gradientn(colors=c("#aacfe5", "#3888c0", "#08336e"))+
   theme(axis.text.x = element_text(angle = 70, vjust = 1, hjust=1))+
   labs(fill = "Freq in Anxiety")
 
 h5 <- ggplot(subset(subset(mydata9, !is.na(History_of_Asthma)), !is.na(History_of_Anxiety)), aes(x = History_of_Anxiety, y = History_of_Asthma)) +
   geom_tile(aes(fill = Freq/Total), color = "white") +
   coord_fixed() + 
-  scale_fill_gradientn(colors=c("#ffe5b5", "#feb538", "#c85103"))+
+  scale_fill_gradientn(colors=c("#aacfe5", "#3888c0", "#08336e"))+
   theme(axis.text.x = element_text(angle = 70, vjust = 1, hjust=1)) +
   labs(fill = "Freq in Anxiety")
 gridExtra::grid.arrange(h1, h2, h3, h4,h5)
@@ -128,6 +128,8 @@ gridExtra::grid.arrange(h1, h2, h3, h4,h5)
 In the above five plots, the x-axis represents the interviewee population's different responses to the history of Anxiety. The y-axis corresponds to the responses for other physical diseases. For each response to Anxiety, we tried to find the proportion of responses for other diseases. For example, the first graph contains variables of history of Anxiety and history of heart disease.
 Among those who had Anxiety, more than 75% chose no, which means more than 75% of people do not have heart disease.
 After comparing Anxiety with other diseases, we can see that the percentage of people who answered yes to both asthma and a history of Anxiety is the highest among the five diseases. We can probably assume that there is a relationship between them. 
+
+**Correlation between diseases**
 
 ```{r}
 nhisAnxiety <- NHIS_final %>%
@@ -163,13 +165,12 @@ heat3 <- inner_join(x=heat2, y=stroke, by="Var1")
 heat4 <- inner_join(x=heat3, y=diabetes, by="Var1")
 heat5 <- inner_join(x=heat4, y=asthma, by="Var1")
 colnames(heat5)[1:7] =c("Answer", "Anxiety","Heart_disease", "Cancer", "Stroke", "Diabetes", "Asthma")
-draw_biplot(heat5)
+draw_biplot(heat5, points=FALSE)
 ```
 
-When two vectors are close, forming a small angle, the two variables they represent are positively correlated.
-If they meet each other at 90°, they are not likely to be correlated.
+The loading plots include vectors for each disease, including anxiety. We note that the vectors for anxiety disorders and asthma patients are relatively close. From our study of the biplot, we know that forming a small angle means that the two variables are positively correlated. Combining this with our findings in the previous heatmap, there is a link between anxiety and asthma. Second, we can also note that the angle between the history of anxiety and other disorders is between 75 and 100 degrees, which means they are not likely to be correlated.
 
-
+**Anxiety Among Ages**
 
 ```{r}
 
@@ -185,10 +186,14 @@ nhisCleve3 <- nhisCleve2%>%
   mutate(pro = freq/Total)
 ggplot(nhisCleve3, aes(x = pro, y = Age)) +
  geom_point(aes(color = History_of_Anxiety))+
+  scale_color_manual(values = c("#FAE367", "#768CCe", "#E7BCC6", "#B4BBC0"), limits = c("Yes", "No", "Refused", "Do not know")) +
   theme_linedraw()
 
 ```
 
+The proportion of anxiety is relatively even across all ages. It remains below 25 percent. However, it is easy to see from the graph that the older the age, the lower the proportion. The prevalence of anxiety disorders in 23- and 24-year-olds is a little higher than in other age groups. The younger the person, the smaller the number of people who have had anxiety disorders. By age 65, the percentage had dropped to less than 12 percent.
+
+**Can smoking reduce anxiety?**
 
 ```{r}
 nhisBar2 <- NHIS_final %>%
@@ -199,10 +204,10 @@ nhisBar3 <- nhisBar2 %>%
   dplyr::summarise(Freq = n())
 ggplot(nhisBar3, aes(x = Smoking, y=Freq, fill = History_of_Anxiety)) + 
     geom_bar(position="fill", stat="identity") +
-  scale_fill_manual(values = c("#E7BCC6", "#768CCe", "#B4BBC0", "#FAE367"))+
+  scale_fill_manual(values = c("#FAE367", "#768CCe", "#E7BCC6", "#B4BBC0"), limits = c("Yes", "No", "Refused", "Do not know")) +
+  scale_x_discrete(limits = c("Every day", "Some days", "Not at all"))+
   theme_minimal()
 ```
 
-
-
+According to our perceptions, smoking is a form of stress relief for some people who have just started smoking. Many smokers experience relief from anxiety after smoking. But is this true? The chart above divides the population into smokers and non-smokers and compares whether they have ever suffered from anxiety. About 27 percent of occasional smokers had anxiety disorders. About 22 percent of occasional smokers had anxiety disorders. About 19% of the never smokers had anxiety disorders. Looking at the graph, we can conclude that smokers are at least eight percent more likely to have anxiety disorders than non-smokers.
 
