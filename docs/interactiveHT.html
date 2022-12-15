@@ -45,14 +45,75 @@
     </p>
     
   	<script>
+// example: { 2018: {"missing" : 3, "unknown": 1} ... }
+    function GetMappingOfAnxietyCount(rows, group_key) {
+        var map = {};
+        rows.forEach(row => {
+            const key_val = row[group_key];
+            if (!map[key_val]) {
+                map[key_val] = {};
+            }
+            if (!map[key_val][row.History_of_Anxiety]) {
+                map[key_val][row.History_of_Anxiety] = 0;
+            }
+            map[key_val][row.History_of_Anxiety]++;
+        });
+        return map;
+    }
+
+    function GetBarData(rows, group_key, sort_ascending=false) {
+        const map = GetMappingOfAnxietyCount(rows, group_key);
+        var sum_map = {};
+        for (const key in map) {
+            if (!sum_map[key]) {
+                sum_map[key] = 0;
+            }
+            for (const anxiety in map[key]) {
+                sum_map[key] += map[key][anxiety];
+            }
+        }
+        var yes_freq_map = {};
+        for (const key in map) {
+            yes_freq_map[key] = map[key]["Yes"] / sum_map[key];
+        }
+        var bardata = [];
+        for (const key_val in yes_freq_map) {
+            if (!key_val || !yes_freq_map[key_val]) {
+                continue;
+            }
+            bardata.push({
+                key: key_val,
+                value: yes_freq_map[key_val],
+            });
+        }
+        bardata.sort(function(a, b) {
+            if (sort_ascending) {
+                return a.key.localeCompare(b.key);
+            } else {
+                return b.key.localeCompare(a.key);
+            }
+        });
+        return bardata;
+    }
 
   	// Create initial svg(year) and initial bars
 
-      const w = 450;
+      const w = 420;
       const h = 300;
-      const margin = {top: 25, right: 5, bottom: 25, left: 30};
+      const margin = {top: 25, right: 10, bottom: 25, left: 40};
       const innerWidth = w - margin.left - margin.right;
       const innerHeight = h - margin.top - margin.bottom;
+
+      var rows = [];
+      var data_is_ready = false;
+
+      d3.csv("https://raw.githubusercontent.com/YingyiZhuZZZ/NHIS_2018_2021/main/NHIS_final.csv", function(row) {
+        rows.push(row);
+        data_is_ready = true;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
 
       // Hard code data(year) for initial presentations 
       const bardata = [{key: "2018", value: 0.0375188132},
@@ -185,106 +246,109 @@
 
       // Function to update svg on specified data
       function CY(){
-        const bardata = [{key:"Yes", value:0.1767803294},
-                         {key:"No",value:0.1040726144}];
-        update(bardata);
+        if (!data_is_ready) {
+            return;
+        }
+        update(GetBarData(rows, "Covid_Year")); 
       }
       
-			function Year(){
-      	const bardata = [{key: "2018", value: 0.0375188132},
-                         {key: "2019", value: 0.157301921},
-                         {key: "2020", value: 0.1711915877},
-                         {key: "2021", value: 0.1826388559}];
-        update(bardata); 
+	function Year(){
+        if (!data_is_ready) {
+            return;
+        }
+        update(GetBarData(rows, "Year", true)); 
       }
       
       function Region(){
-        const bardata = [{key:"Northeast", value:0.1477248375},
-                         {key:"South",value:0.1377336141},
-                         {key:"West", value:0.1270966546},
-                         {key:"Midwest", value:0.1568782233}];
-        update(bardata);
+        if (!data_is_ready) {
+            return;
+        }
+        update(GetBarData(rows, "Region")); 
       } 
       
       function Sex() {
-        const bardata = [{key: "Female", value: 0.1802251700},
-                         {key: "Male", value: 0.0970234831}]; 
-        update(bardata);
+        if (!data_is_ready) {
+            return;
+        }
+        update(GetBarData(rows, "Sex")); 
       }
       
       function SO(){
-        const bardata = [{key:"Straight", value:0.1309340518},
-                         {key:"Bisexual", value:0.4954128440},
-                         {key:"Gay_Lesbian",value:0.2262239730},
-                         {key:"Others", value:0.3053988719}];
-        update(bardata);
+        if (!data_is_ready) {
+            return;
+        }
+        update(GetBarData(rows, "Sexual_Orientation")); 
       }
       
       function Race() {
-        const bardata_Race = [{key: "Aisan", value: 0.0476456356},
-                                {key: "Black", value: 0.1027943105},
-                                {key: "White", value: 0.1582158637},
-                                {key: "Others", value:0.1335197763}];
-        update(bardata_Race);
+        if (!data_is_ready) {
+            return;
+        }
+        update(GetBarData(rows, "Race")); 
       }
       
       function Emp(){
-        const bardata = [{key:"Yes", value:0.1139120363},
-                         {key:"No",value:0.2204671645}];
-        update(bardata);
+        if (!data_is_ready) {
+            return;
+        }
+        update(GetBarData(rows, "Employment")); 
       }
       
       function MS() {
-        const bardata_MS = [{key: "Married", value: 0.1121756890},
-                           {key: "Unmarried", value: 0.1670430975}];
-        update(bardata_MS);
+        if (!data_is_ready) {
+            return;
+        }
+        update(GetBarData(rows, "Marital_Status")); 
       }
       
       function CP(){
-        const bardata = [{key:"Every day", value:0.2975887081},
-                         {key:"Most days", value:0.2595102418},
-                         {key:"Some days",value:0.1358965759},
-                         {key:"Never", value:0.0770008926}];
-        update(bardata);
+        if (!data_is_ready) {
+            return;
+        }
+        update(GetBarData(rows, "Chronic_pain")); 
       } 
       
       function Smoking(){
-        const bardata = [{key:"Every day", value:0.2351003931},
-                         {key:"Some days",value:0.1891891892},
-                         {key:"Not at all", value:0.1726071049}];
-        update(bardata);
+        if (!data_is_ready) {
+            return;
+        }
+        update(GetBarData(rows, "Smoking")); 
       } 
       
       function HoH(){
-        const bardata = [{key:"Yes", value:0.2147210502},
-                         {key:"No",value:0.1389835836}];
-        update(bardata);
+        if (!data_is_ready) {
+            return;
+        }
+        update(GetBarData(rows, "History_of_Heart_disease")); 
       }     
       
       function HoC(){
-        const bardata = [{key:"Yes", value:0.1967900784},
-                         {key:"No",value:0.1370751426}];
-        update(bardata);
+        if (!data_is_ready) {
+            return;
+        }
+        update(GetBarData(rows, "History_of_Cancer")); 
       }    
       
       function HoS(){
-        const bardata = [{key:"Yes", value:0.2749206349},
-                         {key:"No",value:0.1384118755}];
-        update(bardata);
+        if (!data_is_ready) {
+            return;
+        }
+        update(GetBarData(rows, "History_of_Stroke")); 
       }     
       
       function HoD(){
-        const bardata = [{key:"Yes", value:0.1961220598},
-                         {key:"No",value:0.1370150476}];
-        update(bardata);
+        if (!data_is_ready) {
+            return;
+        }
+        update(GetBarData(rows, "History_of_Diabetes")); 
       }   
       
       function HoAs(){
-        const bardata = [{key:"Yes", value:0.2487912808},
-                         {key:"No",value:0.1229262388}];
-        update(bardata);
+        if (!data_is_ready) {
+            return;
+        }
+        update(GetBarData(rows, "History_of_Asthma")); 
       }   
-
     </script>
     
   </body>
