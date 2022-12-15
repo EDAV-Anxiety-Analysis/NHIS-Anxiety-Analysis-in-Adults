@@ -79,7 +79,7 @@ vcd::mosaic(History_of_Anxiety ~ Sex + Race, counts2,
 Anxiety among different genders still follows the pattern from the first plot, with females showing higher correlation with history of anxiety than males. However, if breaking down the data by race, we can see that females in the “other” category show a higher rate of anxiety than Black and Asian females, compared to males, which is interesting to find out. 
 
 ## The Burden of Chronic Pain: Exploring the Prevalence and Impact of Chronic Pain among sex
-```{r fig.width=9, fig.height=5}
+```{r fig.width=9, fig.height=6}
 # alluvium plot
 counts2 <- df %>%
   group_by(History_of_Anxiety,Chronic_pain,Sex) %>%
@@ -238,7 +238,7 @@ draw_biplot(heat5, points=FALSE)
 The loading plots include vectors for each disease, including anxiety. We note that the vectors for anxiety disorders and asthma patients are relatively close. From our study of the biplot, we know that forming a small angle means that the two variables are positively correlated. Combining this with our findings in the previous heatmap, there is a link between anxiety and asthma. Second, we can also note that the angle between the history of anxiety and other disorders is between 75 and 100 degrees, which means they are not likely to be correlated.
 
 ## Geographic Link Between Diabetes and Anxiety
-```{r}
+```{r fig.width=7, fig.height=6}
 # alluvium plot
 counts2 <- df %>%
   group_by(History_of_Anxiety,Region,History_of_Diabetes) %>%
@@ -252,7 +252,7 @@ ggplot(counts2, aes(axis = History_of_Anxiety, axis3 = Region, axis2 = History_o
   scale_x_discrete(limits = c("History_of_Anxiety", "Region", "History_of_Diabetes"))
 ```
 
-Diabetes is a chronic condition in which the body is unable to properly regulate blood sugar levels. This can lead to a range of complications, including damage to the heart, blood vessels, nerves, and kidneys. The plot you are referring to suggests that there might be a higher prevalence of diabetes in the southern region of the United States, and that people in this region are also more likely to experience anxiety.There are several potential reasons for this correlation. One possible explanation is that people who live in the southern region of the US may have different lifestyles and dietary habits that contribute to the development of diabetes and anxiety. For example, southern cuisine often includes high-fat and high-calorie dishes, which can increase the risk of obesity and related conditions.
+Diabetes is a chronic condition in which the body is unable to properly regulate blood sugar levels. This can lead to a range of complications, including damage to the heart, blood vessels, nerves, and kidneys. The plot you are referring to suggests that there might be a higher prevalence of diabetes in the southern region of the United States, and that people in this region are also more likely to experience anxiety. There are several potential reasons for this correlation. One possible explanation is that people who live in the southern region of the US may have different lifestyles and dietary habits that contribute to the development of diabetes and anxiety. For example, southern cuisine often includes high-fat and high-calorie dishes, which can increase the risk of obesity and related conditions.
 
 ## Are elderly people less anxious about their life?
 
